@@ -1,13 +1,14 @@
-import firebase_admin
+import json
+import streamlit as st
 from firebase_admin import credentials, db
+import firebase_admin
 
-# Initialize Firebase App
 if not firebase_admin._apps:
-    cred = credentials.Certificate("/home/darkdemon/firebase_project/firebase-key.json")
+    key_dict = json.loads(st.secrets["FIREBASE_KEY"])
+    cred = credentials.Certificate(key_dict)
     firebase_admin.initialize_app(cred, {
         'databaseURL': "https://ima-i20-default-rtdb.firebaseio.com/"
     })
 
-# Function to get database reference
 def get_db_ref(path):
     return db.reference(path)
